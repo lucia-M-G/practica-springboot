@@ -7,14 +7,19 @@ import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import org.example.co2generatedbyai.model.AiModel;
+import java.util.Map;
+import java.util.HashMap;
 
 @Repository
 public class AiSesionRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private final AiModelRepository aiModelRepository;
 
-    public AiSesionRepository(JdbcTemplate jdbcTemplate) {
+    public AiSesionRepository(JdbcTemplate jdbcTemplate, AiModelRepository aiModelRepository) {
         this.jdbcTemplate = jdbcTemplate;
+        this.aiModelRepository = aiModelRepository;
     }
 
     public List<AiSesion> findAll() {
@@ -77,19 +82,20 @@ public List<Map<String, Object>> getReport() {
     });
 }
 
-    // Convierte una fila de BD en objeto AiSesion
+    // Actualizado al nuevo Aisesion
     private AiSesion mapearSesion(ResultSet rs) throws SQLException {
+        // Primero busca el AiModel por nombre
+        AiModel aiModel = aiModelRepository.findByNameAiModel(rs.getString("modelo"));
+
+        // Luego crea la sesión con ese AiModel
         AiSesion sesion = new AiSesion(
             rs.getString("usuario"),
-            rs.getString("modelo"),
-            rs.getString("tipo_tarea"),
             rs.getInt("num_consultas"),
             rs.getTimestamp("fecha").toLocalDateTime(),
-            rs.getString("descripcion")
+            rs.getString("descripcion"),
+            aiModel
         );
         sesion.setId(rs.getInt("id"));
-        sesion.setCo2Estimado(rs.getDouble("co2_estimado"));
-        sesion.setKwhEstimado(rs.getDouble("kwh_estimado"));
         return sesion;
     }
 }
