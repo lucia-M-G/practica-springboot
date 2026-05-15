@@ -61,6 +61,22 @@ public class AiSesionRepository {
         );
     }
 
+    // GET /sessions/report — total CO₂ y kWh agrupado por usuario
+public List<Map<String, Object>> getReport() {
+    String sql = "SELECT usuario, " +
+                 "SUM(co2_estimado) as totalCo2, " +
+                 "SUM(kwh_estimado) as totalKwh " +
+                 "FROM sesiones GROUP BY usuario";
+
+    return jdbcTemplate.query(sql, (rs, rowNum) -> {
+        Map<String, Object> report = new HashMap<>();
+        report.put("usuario", rs.getString("usuario"));
+        report.put("totalCo2", rs.getDouble("totalCo2"));
+        report.put("totalKwh", rs.getDouble("totalKwh"));
+        return report;
+    });
+}
+
     // Convierte una fila de BD en objeto AiSesion
     private AiSesion mapearSesion(ResultSet rs) throws SQLException {
         AiSesion sesion = new AiSesion(
