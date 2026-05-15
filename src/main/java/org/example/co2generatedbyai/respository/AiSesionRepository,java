@@ -1,0 +1,79 @@
+package org.example.co2generatedbyai.respository;
+
+import org.example.co2generatedbyai.model.AiSesion;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+
+@Repository
+public class AiSesionRepository {
+
+    private final JdbcTemplate jdbcTemplate;
+
+    public AiSesionRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public List<AiSesion> findAll() {
+        return jdbcTemplate.query(
+            "SELECT * FROM sesiones",
+            (rs, rowNum) -> mapearSesion(rs)
+        );
+    }
+
+    public AiSesion findById(int id) {
+        return jdbcTemplate.queryForObject(
+            "SELECT * FROM sesiones WHERE id = ?",
+            new Object[]{id},
+            (rs, rowNum) -> mapearSesion(rs)
+        );
+    }
+
+    public void save(AiSesion sesion) {
+        jdbcTemplate.update(
+            "INSERT INTO sesiones (usuario, modelo, tipo_tarea, num_consultas, fecha, descripcion, co2_estimado, kwh_estimado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            sesion.getUsuario(),
+            sesion.getModel(),
+            sesion.getTipoTask(),
+            sesion.getNumConsultas(),
+            sesion.getFecha(),
+            sesion.getDescripcion(),
+            sesion.getCo2Estimado(),
+            sesion.getKwhEstimado()
+        );
+    }
+
+    public void deleteById(int id) {
+        jdbcTemplate.update(
+            "DELETE FROM sesiones WHERE id = ?",
+            id
+        );
+    }
+
+    public List<AiSesion> findByUsuario(String usuario) {
+        return jdbcTemplate.query(
+            "SELECT * FROM sesiones WHERE usuario = ?",
+            new Object[]{usuario},
+            (rs, rowNum) -> mapearSesion(rs)
+        );
+    }
+
+    // Convierte una fila de BD en objeto AiSesion
+    private AiSesion mapearSesion(ResultSet rs) throws SQLException {
+        AiSesion sesion = new AiSesion(
+            rs.getString("usuario"),
+            rs.getString("modelo"),
+            rs.getString("tipo_tarea"),
+            rs.getInt("num_consultas"),
+            rs.getTimestamp("fecha").toLocalDateTime(),
+            rs.getString("descripcion")
+        );
+        sesion.setId(rs.getInt("id"));
+        sesion.setCo2Estimado(rs.getDouble("co2_estimado"));
+        sesion.setKwhEstimado(rs.getDouble("kwh_estimado"));
+        return sesion;
+    }
+}
