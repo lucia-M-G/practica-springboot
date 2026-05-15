@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class AiSesion {
     private int id;
+    private AiModel aiModel;
     private String usuario;
     private String model;
     private String tipoTask;
@@ -13,22 +14,22 @@ public class AiSesion {
     private Double co2Estimado;
     private Double kwhEstimado;
 
-    public AiSesion(String usuario, String model, String tipoTask, int numConsultas, LocalDateTime fecha, String descripcion) {
+    public AiSesion(String usuario, int numConsultas, LocalDateTime fecha, String descripcion, AiModel aiModel) {
+        this.aiModel = new AiModel();
         this.usuario = usuario;
-        this.model = model;
-        this.tipoTask = tipoTask;
+        this.model = aiModel.getModel();
+        this.tipoTask = aiModel.getTipoTask();
         this.numConsultas = numConsultas;
         this.fecha = fecha;
         this.descripcion = descripcion;
+        this.co2Estimado = this.numConsultas * aiModel.getCO2Consulta();
+        this.kwhEstimado = this.numConsultas * (aiModel.getConsumo() / 1000.0);
     }
 
     public void calcularEmisiones(AiModel aiModel) {
         if (aiModel == null) {
             throw new IllegalArgumentException("No existe modelo de referencia");
         }
-
-        this.co2Estimado = this.numConsultas * aiModel.getCO2Consulta();
-        this.kwhEstimado = this.numConsultas * (aiModel.getConsumo() / 1000.0);
     }
 
     public int getId() {
