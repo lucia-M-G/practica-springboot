@@ -3,6 +3,7 @@ package org.example.co2generatedbyai.model;
 import java.time.LocalDateTime;
 
 public class AiSesion {
+    private int id;
     private String usuario;
     private String model;
     private String tipoTask;
@@ -12,16 +13,30 @@ public class AiSesion {
     private Double co2Estimado;
     private Double kwhEstimado;
 
-    public AiSesion(String usuari, String model, String tipoTask, int numConsultas,
-                    LocalDateTime fecha, String descripcion, Double co2Estimado, Double kwhEstimado) {
-        this.usuario = usuari;
+    public AiSesion(String usuario, String model, String tipoTask, int numConsultas, LocalDateTime fecha, String descripcion) {
+        this.usuario = usuario;
         this.model = model;
         this.tipoTask = tipoTask;
         this.numConsultas = numConsultas;
         this.fecha = fecha;
         this.descripcion = descripcion;
-        this.co2Estimado = co2Estimado;
-        this.kwhEstimado = kwhEstimado;
+    }
+
+    public void calcularEmisiones(AiModel aiModel) {
+        if (aiModel == null) {
+            throw new IllegalArgumentException("No existe modelo de referencia");
+        }
+
+        this.co2Estimado = this.numConsultas * aiModel.getCO2Consulta();
+        this.kwhEstimado = this.numConsultas * (aiModel.getConsumo() / 1000.0);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsuario() {
@@ -48,20 +63,20 @@ public class AiSesion {
         this.tipoTask = tipoTask;
     }
 
-    public LocalDateTime getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDateTime fecha) {
-        this.fecha = fecha;
-    }
-
     public int getNumConsultas() {
         return numConsultas;
     }
 
     public void setNumConsultas(int numConsultas) {
         this.numConsultas = numConsultas;
+    }
+
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
     }
 
     public String getDescripcion() {
