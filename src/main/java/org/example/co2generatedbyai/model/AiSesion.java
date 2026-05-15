@@ -15,7 +15,7 @@ public class AiSesion {
     private Double kwhEstimado;
 
     public AiSesion(String usuario, int numConsultas, LocalDateTime fecha, String descripcion, AiModel aiModel) {
-        this.aiModel = new AiModel();
+        this.aiModel = new AiModel(aiModel.getModel(), aiModel.getTipoTask(), aiModel.getCO2Consulta(), aiModel.getConsumo());
         this.usuario = usuario;
         this.model = aiModel.getModel();
         this.tipoTask = aiModel.getTipoTask();
