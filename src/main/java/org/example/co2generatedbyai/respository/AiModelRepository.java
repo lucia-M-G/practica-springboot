@@ -21,11 +21,11 @@ public class AiModelRepository {
             rs.getDouble("consumo")
     );
 
-    public List<AiModel> findAll() {
+    public List<AiModel> getAllAiModel() {
         return jdbc.query("SELECT * FROM ai_model", aiModelRowMapper);
     }
 
-    public AiModel findByName(String nombre) {
+    public AiModel findByNameAiModel(String nombre) {
         String sql = "SELECT * FROM ai_model WHERE nombre = ?";
 
         return jdbc.queryForObject(sql, new Object[]{nombre}, aiModelRowMapper);
