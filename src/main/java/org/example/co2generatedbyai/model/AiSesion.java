@@ -31,11 +31,11 @@ public class AiSesion {
         this.kwhEstimado = this.numConsultas * (aiModel.getConsumo() / 1000.0);
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
