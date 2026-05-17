@@ -24,14 +24,14 @@ public class AiSesionRepository {
 
     public List<AiSesion> findAll() {
         return jdbcTemplate.query(
-            "SELECT * FROM sesiones",
+            "SELECT * FROM sesions",
             (rs, rowNum) -> mapearSesion(rs)
         );
     }
 
     public AiSesion findById(int id) {
         return jdbcTemplate.queryForObject(
-            "SELECT * FROM sesiones WHERE id = ?",
+            "SELECT * FROM sesions WHERE id = ?",
             new Object[]{id},
             (rs, rowNum) -> mapearSesion(rs)
         );
@@ -39,7 +39,7 @@ public class AiSesionRepository {
 
     public void save(AiSesion sesion) {
         jdbcTemplate.update(
-            "INSERT INTO sesiones (usuario, modelo, tipo_tarea, num_consultas, fecha, descripcion, co2_estimado, kwh_estimado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO sesions (usuario, modelo, tipo_tarea, num_consultas, fecha, descripcion, co2_estimado, kwh_estimado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             sesion.getUsuario(),
             sesion.getModel(),
             sesion.getTipoTask(),
@@ -53,14 +53,14 @@ public class AiSesionRepository {
 
     public void deleteById(int id) {
         jdbcTemplate.update(
-            "DELETE FROM sesiones WHERE id = ?",
+            "DELETE FROM sesions WHERE id = ?",
             id
         );
     }
 
     public List<AiSesion> findByUsuario(String usuario) {
         return jdbcTemplate.query(
-            "SELECT * FROM sesiones WHERE usuario = ?",
+            "SELECT * FROM sesions WHERE usuario = ?",
             new Object[]{usuario},
             (rs, rowNum) -> mapearSesion(rs)
         );
@@ -71,7 +71,7 @@ public List<Map<String, Object>> getReport() {
     String sql = "SELECT usuario, " +
                  "SUM(co2_estimado) as totalCo2, " +
                  "SUM(kwh_estimado) as totalKwh " +
-                 "FROM sesiones GROUP BY usuario";
+                 "FROM sesions GROUP BY usuario";
 
     return jdbcTemplate.query(sql, (rs, rowNum) -> {
         Map<String, Object> report = new HashMap<>();
