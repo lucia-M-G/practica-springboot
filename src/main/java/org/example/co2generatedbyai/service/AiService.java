@@ -66,6 +66,8 @@ public class AiService {
     public List<AiSesion> exportSesions() {
         List<AiSesion> sesiones = aiSesionRepository.findAll();
         try {
+            // Crear carpeta de salida de informe si no existe
+            new java.io.File("exports").mkdirs();
             BufferedWriter escribir = new BufferedWriter(new FileWriter("exports/sesions.csv"));
             for (AiSesion sesion : sesiones) {
                 escribir.write(sesion.getId() + ","
