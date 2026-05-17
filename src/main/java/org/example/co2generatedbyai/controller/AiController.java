@@ -6,7 +6,6 @@ import org.example.co2generatedbyai.service.AiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
-import org.springframework.core.io.*;
 import java.util.*;
 
 @RestController
@@ -25,6 +24,17 @@ public class AiController {
         return ResponseEntity.ok(aiService.getAllSesions());
     }
 
+    @GetMapping("/sesions/report")
+    public ResponseEntity<List<AiUserReport>> getReport() {
+        return ResponseEntity.ok(aiService.getReport());
+    }
+
+    @GetMapping("/sesions/export")
+    public ResponseEntity<List<AiSesion>> getExport() {
+        return ResponseEntity.ok(aiService.exportSesions());
+    }
+
+    // getSesionById después de report y export para evitar confundir /report con /{id}
     @GetMapping("/sesions/{id}")
     public ResponseEntity<AiSesion> getSesion(@PathVariable int id) {
         AiSesion sesion = aiService.getSesion(id);
@@ -34,26 +44,6 @@ public class AiController {
         }
 
         return ResponseEntity.ok(sesion);
-    }
-
-//    @PostMapping("/sesions/report")
-//    public ResponseEntity<List<AiSesion>> createReport(@RequestBody AiSesion sesion) {
-//        return ResponseEntity.ok(aiService.createReport(sesion.getUsuario()));
-//    }
-//
-//    @PostMapping("/sesions/export")
-//    public ResponseEntity<List<AiSesion>> exportSesions(@RequestBody AiSesion sesion) {
-//        return ResponseEntity.ok(aiService.exportSesions(sesion.getUsuario()));
-//    }
-
-    @GetMapping("/sesions/report")
-    public ResponseEntity<List<AiSesion>> getReport() {
-        return ResponseEntity.ok(aiService.createReport());
-    }
-
-    @GetMapping("/sesions/export")
-    public ResponseEntity<List<AiSesion>> getExport() {
-        return ResponseEntity.ok(aiService.exportReport());
     }
 
     @PostMapping("/sesions")
@@ -66,7 +56,7 @@ public class AiController {
 
         AiSesion creada = aiService.createSesion(sesion);
         // 201: Creada
-        System.out.println("Sesión añadida");
+        System.out.println("Sesión añadida: " + creada.getId());
         return ResponseEntity.status(201).body(creada);
     }
 
