@@ -1,6 +1,7 @@
 package org.example.co2generatedbyai.respository;
 
 import org.example.co2generatedbyai.model.AiSesion;
+import org.example.co2generatedbyai.model.AiUserReport;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -67,20 +68,18 @@ public class AiSesionRepository {
     }
 
     // GET /sessions/report — total CO₂ y kWh agrupado por usuario
-public List<Map<String, Object>> getReport() {
-    String sql = "SELECT usuario, " +
-                 "SUM(co2_estimado) as totalCo2, " +
-                 "SUM(kwh_estimado) as totalKwh " +
-                 "FROM sesions GROUP BY usuario";
+    public List<AiUserReport> getReport() {
+        String sql = "SELECT usuario, " +
+                     "SUM(co2_estimado) as totalCo2, " +
+                     "SUM(kwh_estimado) as totalKwh " +
+                     "FROM sesions GROUP BY usuario";
 
-    return jdbcTemplate.query(sql, (rs, rowNum) -> {
-        Map<String, Object> report = new HashMap<>();
-        report.put("usuario", rs.getString("usuario"));
-        report.put("totalCo2", rs.getDouble("totalCo2"));
-        report.put("totalKwh", rs.getDouble("totalKwh"));
-        return report;
-    });
-}
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new AiUserReport(
+                rs.getString("usuario"),
+                rs.getDouble("totalCo2"),
+                rs.getDouble("totalKwh")
+        ));
+    }
 
     // Actualizado al nuevo Aisesion
     private AiSesion mapearSesion(ResultSet rs) throws SQLException {
