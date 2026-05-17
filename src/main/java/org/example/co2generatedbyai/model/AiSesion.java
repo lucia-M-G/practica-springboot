@@ -1,34 +1,35 @@
 package org.example.co2generatedbyai.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class AiSesion {
     private int id;
+    private AiModel aiModel;
     private String usuario;
     private String model;
     private String tipoTask;
     private int numConsultas;
-    private LocalDateTime fecha;
+    private LocalDate fecha;
     private String descripcion;
     private Double co2Estimado;
     private Double kwhEstimado;
 
-    public AiSesion(String usuario, String model, String tipoTask, int numConsultas, LocalDateTime fecha, String descripcion) {
+    public AiSesion(String usuario, int numConsultas, LocalDate fecha, String descripcion, AiModel aiModel) {
+        this.aiModel = new AiModel(aiModel.getModel(), aiModel.getTipoTask(), aiModel.getCO2Consulta(), aiModel.getConsumo());
         this.usuario = usuario;
-        this.model = model;
-        this.tipoTask = tipoTask;
+        this.model = aiModel.getModel();
+        this.tipoTask = aiModel.getTipoTask();
         this.numConsultas = numConsultas;
         this.fecha = fecha;
         this.descripcion = descripcion;
+        this.co2Estimado = this.numConsultas * aiModel.getCO2Consulta();
+        this.kwhEstimado = this.numConsultas * (aiModel.getConsumo() / 1000.0);
     }
 
     public void calcularEmisiones(AiModel aiModel) {
         if (aiModel == null) {
             throw new IllegalArgumentException("No existe modelo de referencia");
         }
-
-        this.co2Estimado = this.numConsultas * aiModel.getCO2Consulta();
-        this.kwhEstimado = this.numConsultas * (aiModel.getConsumo() / 1000.0);
     }
 
     public int getId() {
@@ -71,11 +72,11 @@ public class AiSesion {
         this.numConsultas = numConsultas;
     }
 
-    public LocalDateTime getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDateTime fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
