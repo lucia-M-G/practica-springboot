@@ -14,6 +14,11 @@ public class AiSesion {
     private Double co2Estimado;
     private Double kwhEstimado;
 
+    // Constructor para que JSON pueda crear una sesión (formulario blanco para "cliente")
+    public AiSesion() {
+    }
+
+    // Constructor con AiModel es para crear la sesión de verdad con los datos de la BD
     public AiSesion(String usuario, int numConsultas, LocalDate fecha, String descripcion, AiModel aiModel) {
         this.aiModel = new AiModel(aiModel.getModel(), aiModel.getTipoTask(), aiModel.getCO2Consulta(), aiModel.getConsumo());
         this.usuario = usuario;
