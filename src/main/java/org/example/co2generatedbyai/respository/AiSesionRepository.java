@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import org.example.co2generatedbyai.model.AiModel;
 import java.util.Map;
 import java.util.HashMap;
@@ -91,7 +91,7 @@ public List<Map<String, Object>> getReport() {
         AiSesion sesion = new AiSesion(
             rs.getString("usuario"),
             rs.getInt("num_consultas"),
-            rs.getTimestamp("fecha").toLocalDateTime(),
+            rs.getDate("fecha").toLocalDate(),
             rs.getString("descripcion"),
             aiModel
         );

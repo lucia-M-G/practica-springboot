@@ -1,6 +1,6 @@
 package org.example.co2generatedbyai.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class AiSesion {
     private int id;
@@ -9,12 +9,12 @@ public class AiSesion {
     private String model;
     private String tipoTask;
     private int numConsultas;
-    private LocalDateTime fecha;
+    private LocalDate fecha;
     private String descripcion;
     private Double co2Estimado;
     private Double kwhEstimado;
 
-    public AiSesion(String usuario, int numConsultas, LocalDateTime fecha, String descripcion, AiModel aiModel) {
+    public AiSesion(String usuario, int numConsultas, LocalDate fecha, String descripcion, AiModel aiModel) {
         this.aiModel = new AiModel(aiModel.getModel(), aiModel.getTipoTask(), aiModel.getCO2Consulta(), aiModel.getConsumo());
         this.usuario = usuario;
         this.model = aiModel.getModel();
@@ -72,11 +72,11 @@ public class AiSesion {
         this.numConsultas = numConsultas;
     }
 
-    public LocalDateTime getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDateTime fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
