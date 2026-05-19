@@ -9,8 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import org.example.co2generatedbyai.model.AiModel;
-import java.util.Map;
-import java.util.HashMap;
 
 @Repository
 public class AiSesionRepository {
@@ -50,6 +48,16 @@ public class AiSesionRepository {
             sesion.getCo2Estimado(),
             sesion.getKwhEstimado()
         );
+
+        // Recuperar id real para POST
+        Integer id = jdbcTemplate.queryForObject(
+                "SELECT LAST_INSERT_ID()",
+                Integer.class
+        );
+
+        if (id != null) {
+            sesion.setId(id);
+        }
     }
 
     public void deleteById(int id) {
@@ -84,13 +92,19 @@ public class AiSesionRepository {
     // Actualizado al nuevo Aisesion
     private AiSesion mapearSesion(ResultSet rs) throws SQLException {
         // Primero busca el AiModel por nombre
-        AiModel aiModel = aiModelRepository.findByNameAiModel(rs.getString("modelo"));
+        AiModel aiModel = aiModelRepository.findByNombreAndTipoTarea(
+                rs.getString("modelo"),
+                rs.getString("tipo_tarea")
+        );
+
+        java.sql.Date fechaSql = rs.getDate("fecha");
+        LocalDate fecha = fechaSql != null ? fechaSql.toLocalDate() : LocalDate.now();
 
         // Luego crea la sesión con ese AiModel
         AiSesion sesion = new AiSesion(
             rs.getString("usuario"),
             rs.getInt("num_consultas"),
-            rs.getDate("fecha").toLocalDate(),
+            fecha,
             rs.getString("descripcion"),
             aiModel
         );
