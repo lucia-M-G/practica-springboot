@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -25,8 +25,8 @@ public class AiSesionTest {
     public static void setUp() {
         aiModel1 = new AiModel("GPT-4", "texto", 6.5, 0.005);
         AiModel aiModel2 = new AiModel("Stable Diffusion", "imagen", 8.75, 0.012);
-        aiSesion1 = new AiSesion("Maria", 6, LocalDateTime.now(), "", aiModel1);
-        aiSesion2 = new AiSesion("Julio", 5, LocalDateTime.now(), "", aiModel2);
+        aiSesion1 = new AiSesion("Maria", 6, LocalDate.now(), "", aiModel1);
+        aiSesion2 = new AiSesion("Julio", 5, LocalDate.now(), "", aiModel2);
 
     }
 
@@ -39,7 +39,7 @@ public class AiSesionTest {
 
         @Test
         void aiSesion1kwhEstimado() {
-            assertEquals(0.00003, aiSesion1.getKwhEstimado(), 0.01);
+            assertEquals(0.03, aiSesion1.getKwhEstimado(), 0.01);
         }
 
         @Test
@@ -49,7 +49,7 @@ public class AiSesionTest {
 
         @Test
         void aiSesion2kwhEstimado() {
-            assertEquals(0.00006, aiSesion2.getKwhEstimado(), 0.01);
+            assertEquals(0.06, aiSesion2.getKwhEstimado(), 0.01);
         }
     }
 
@@ -58,7 +58,7 @@ public class AiSesionTest {
         @Test
         void aiSesion3Error() {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-                AiSesion aiSesion3 = new AiSesion("Julio", 5, LocalDateTime.now(), "", null);
+                AiSesion aiSesion3 = new AiSesion("Julio", 5, LocalDate.now(), "", null);
             });
 
             assertEquals("No existe modelo de referencia", exception.getMessage());
@@ -67,7 +67,7 @@ public class AiSesionTest {
         @Test
         void aiSEsion4Error() {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-                AiSesion aiSesion4 = new AiSesion("Lucia", 0, LocalDateTime.now(), "", aiModel1);
+                AiSesion aiSesion4 = new AiSesion("Lucia", 0, LocalDate.now(), "", aiModel1);
             });
 
             assertEquals("No se pueden hacer sesiones sin numero de consultas", exception.getMessage());

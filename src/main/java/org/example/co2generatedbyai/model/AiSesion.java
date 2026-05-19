@@ -1,6 +1,6 @@
 package org.example.co2generatedbyai.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class AiSesion {
     private int id;
@@ -9,12 +9,24 @@ public class AiSesion {
     private String model;
     private String tipoTask;
     private int numConsultas;
-    private LocalDateTime fecha;
+    private LocalDate fecha;
     private String descripcion;
     private Double co2Estimado;
     private Double kwhEstimado;
 
-    public AiSesion(String usuario, int numConsultas, LocalDateTime fecha, String descripcion, AiModel aiModel) {
+    // Constructor para que JSON pueda crear una sesión (formulario blanco para "cliente")
+    public AiSesion() {
+    }
+
+    // Constructor con AiModel es para crear la sesión de verdad con los datos de la BD
+    public AiSesion(String usuario, int numConsultas, LocalDate fecha, String descripcion, AiModel aiModel) {
+        if (aiModel == null) {
+            throw new IllegalArgumentException("No existe modelo de referencia");
+        }
+        if (numConsultas <= 0) {
+            throw new IllegalArgumentException("No se pueden hacer sesiones sin numero de consultas");
+        }
+
         this.aiModel = new AiModel(aiModel.getModel(), aiModel.getTipoTask(), aiModel.getCO2Consulta(), aiModel.getConsumo());
         this.usuario = usuario;
         this.model = aiModel.getModel();
@@ -23,13 +35,7 @@ public class AiSesion {
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.co2Estimado = this.numConsultas * aiModel.getCO2Consulta();
-        this.kwhEstimado = this.numConsultas * (aiModel.getConsumo() / 1000.0);
-    }
-
-    public void calcularEmisiones(AiModel aiModel) {
-        if (aiModel == null) {
-            throw new IllegalArgumentException("No existe modelo de referencia");
-        }
+        this.kwhEstimado = this.numConsultas * aiModel.getConsumo();
     }
 
     public int getId() {
@@ -72,11 +78,11 @@ public class AiSesion {
         this.numConsultas = numConsultas;
     }
 
-    public LocalDateTime getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDateTime fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
