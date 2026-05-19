@@ -36,17 +36,23 @@ public class AiService {
     }
 
     public AiSesion createSesion(AiSesion info) {
-        AiModel modelo = aiModelRepository.findByNameAiModel(info.getModel());
+        LocalDate fecha = info.getFecha() != null ? info.getFecha() : LocalDate.now();
+        String descripcion = info.getDescripcion() != null ? info.getDescripcion() : "";
+
+        AiModel modelo = aiModelRepository.findByNombreAndTipoTarea(
+                info.getModel(),
+                info.getTipoTask()
+        );
 
         AiSesion nuevaSesion = new AiSesion(
                 info.getUsuario(),
                 info.getNumConsultas(),
-                info.getFecha(),
-                info.getDescripcion(),
+                fecha,
+                descripcion,
                 modelo
         );
 
-        aiSesionRepository.save(nuevaSesion);
+        aiSesionRepository.save(nuevaSesion);  // save con KeyHolder para rellenar el id
         return nuevaSesion;
     }
 
