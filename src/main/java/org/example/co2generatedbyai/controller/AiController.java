@@ -1,6 +1,7 @@
 package org.example.co2generatedbyai.controller;
 
 import org.example.co2generatedbyai.model.*;
+import org.example.co2generatedbyai.respository.AiModelRepository;
 import org.example.co2generatedbyai.service.AiService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import java.util.*;
 public class AiController {
     @Autowired
     private AiService aiService;
+    @Autowired
+    private AiModelRepository aiModelRepository;
 
     @GetMapping("/")
     public String getIndex() {
@@ -70,5 +73,10 @@ public class AiController {
         // 204: No Content
         System.out.println("Sesión eliminada: " + id);
         return ResponseEntity.status(204).build();
+    }
+
+    @GetMapping("/modelRanking")
+    public ResponseEntity<List<AiModel>> rankingModel () {
+        return ResponseEntity.ok(aiService.getAiModelRanking());
     }
 }
