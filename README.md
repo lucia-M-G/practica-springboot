@@ -27,9 +27,10 @@
    - 4.2 [Dónde se ha aplicado](#42-dónde-se-ha-aplicado)
    - 4.3 [Cómo se ha usado](#43-cómo-se-ha-usado)
    - 4.4 [Valoración crítica](#44-valoración-crítica)
-
-5. [Autores](#5-autores)
-6. [Licencia y entrega](#6-licencia-y-entrega)
+  
+5. [Trabajo en equipo y GitHub](#5-trabajo-en-equipo-y-github)
+6. [Autores](#6-autores)
+7. [Licencia y entrega](#7-licencia-y-entrega)
 
 ## 1. Documento técnico del proyecto
 
@@ -247,12 +248,24 @@ curl -X DELETE http://localhost:8080/sesions/1
 
 **`/modelRanking`:** Lista los modelos de más a menos eficientes en consumo por consulta (no en CO₂ directamente). Es útil para elegir herramientas con menor huella energética según la tabla.
 
-## Autores
+## 5. Trabajo en equipo y GitHub
+
+El desarrollo se ha hecho en el repositorio de la práctica, con ramas por funcionalidad e integración en la rama `dev`.
+
+Utilizamos **GitHub Projects** para planificar tareas, asignar responsables y hacer seguimiento del estado del trabajo.  [Tablero del proyecto](https://github.com/orgs/LSG-Programacio/projects/7)
+
+Respectivo al flujo de trabajo:
+
+- Cada funcionalidad relevante se trabaja en una **rama** y se integra en `dev` mediante merge.
+- Los **commits** siguen la notación de Conventional Commits.
+- Las pruebas de API se documentan en el [Master Test Plan](docs/MasterTestPlan_AImpact.xlsx) y las automatizadas se ejecutan con `mvn test`.
+
+## 6. Autores
 Julio Arango <br>
 Lucía Martínez <br>
 Maria Montobbio <br>
 
-## Licencia y entrega
+## 7. Licencia y entrega
 Este proyecto es con fines educativos para el ciclo formativo de La Salle Gràcia | DAM.
 
 **Módulo:** 
