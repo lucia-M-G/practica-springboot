@@ -1,5 +1,36 @@
 # Impacto de las IAs - Practica Final SpringBoot
 
+## Índice
+
+1. [Documento técnico del proyecto](#1-documento-técnico-del-proyecto)
+   - 1.1 [Descripción general](#11-descripción-general)
+   - 1.2 [Funcionalidad abierta del grupo](#12-funcionalidad-creativa)
+   - 1.3 [Estructura del proyecto](#13-estructura-del-proyecto)
+   - 1.4 [Documentación de los endpoints REST](#14-documentación-de-los-endpoints-rest)
+   - 1.5 [Esquema de la base de datos](#15-esquema-de-la-base-de-datos)
+   - 1.6 [Descripción técnica del cálculo de CO₂ y kWh](#16-descripción-técnica-del-cálculo-de-co2-y-kwh)
+
+2. [Manual de usuario / Manual de integración](#2-manual-de-usuario--manual-de-integración)
+   - 2.1 [Requisitos](#21-requisitos)
+   - 2.2 [Configuración de MySQL](#22-configuración-de-mysql)
+   - 2.3 [Ejemplos con curl](#23-ejemplos-con-curl)
+   - 2.4 [Interpretación de resultados](#24-interpretación-de-resultados)
+
+3. [Plan de pruebas (testing)](#3-plan-de-pruebas-testing)
+   - 3.1 [Enfoque](#31-enfoque)
+   - 3.2 [Master Test Plan](#32-master-test-plan)
+   - 3.3 [Pruebas automatizadas en el código](#33-pruebas-automatizadas-en-el-código)
+   - 3.4 [Cobertura manual vs automatizada](#34-cobertura-manual-vs-automatizada)
+
+4. [Uso de la inteligencia artificial en el desarrollo](#4-uso-de-la-inteligencia-artificial-en-el-desarrollo)
+   - 4.1 [Herramientas utilizadas](#41-herramientas-utilizadas)
+   - 4.2 [Dónde se ha aplicado](#42-dónde-se-ha-aplicado)
+   - 4.3 [Cómo se ha usado](#43-cómo-se-ha-usado)
+   - 4.4 [Valoración crítica](#44-valoración-crítica)
+
+5. [Autores](#5-autores)
+6. [Licencia y entrega](#6-licencia-y-entrega)
+
 ## 1. Documento técnico del proyecto
 
 ### 1.1 Descripción general
@@ -8,7 +39,7 @@ Hablamos de una API REST desarrollada con **Spring Boot** que registra sesiones 
 
 Se quiere hacer "tangible" el coste ambiental de estas consultas, que a menudo se reducen a preguntas cotidianas. Nuestra aplicación centraliza estos datos, los persiste en MySQL y ofrece consultas, informes por usuario y exportación de ellos.
 
-### 1.2 Funcionalidad creativa: ranking de eficiencia de modelos
+### 1.2 Funcionalidad creativa
 
 Hemos añadido el endpoint **`GET /modelRanking`**, que devuelve todos los modelos de la tabla `ai_model` ordenados por consumo energético por consulta: menos consumo por consulta, más arriba aparece en el ranking.
 
@@ -137,7 +168,7 @@ Cada sesión se vincula a un registro de `ai_model` mediante `modelo` + `tipo_ta
 
 ENLAZE AL SCRIPT EN docs/
 
-### 1.6 Descripción técnica del cálculo de CO₂ y kWh
+### 1.6 Descripción técnica del cálculo de CO2 y kWh
 
 Los valores de referencia se leen de `ai_model` según el nombre del modelo y el tipo de tarea.
 
@@ -178,7 +209,7 @@ spring.datasource.password=root
 
 La API estará en **http://localhost:8080**
 
-### 2.4 Ejemplos con curl
+### 2.3 Ejemplos con curl
 
 ```bash
 # Índice
@@ -208,7 +239,7 @@ curl http://localhost:8080/modelRanking
 curl -X DELETE http://localhost:8080/sesions/1
 ```
 
-### 2.5 Interpretación de resultados
+### 2.4 Interpretación de resultados
 
 **`/sesions/report`:** Para cada `usuario`, los campos `totalCo2` y `totalKwh` son la suma de todas sus sesiones. Así comparamos quién acumula más consumo energético.
 
