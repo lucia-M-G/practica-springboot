@@ -32,8 +32,8 @@ public class AiModelRepository {
     }
 
 
-
-
-
+    public List<AiModel> getAllAiModelOrderByEficency() {
+        return jdbc.query("SELECT * FROM ai_model ORDER BY consumo", aiModelRowMapper);
+    }
 
 }
