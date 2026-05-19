@@ -39,7 +39,7 @@ public class AiSesionTest {
 
         @Test
         void aiSesion1kwhEstimado() {
-            assertEquals(0.00003, aiSesion1.getKwhEstimado(), 0.01);
+            assertEquals(0.03, aiSesion1.getKwhEstimado(), 0.01);
         }
 
         @Test
@@ -49,7 +49,7 @@ public class AiSesionTest {
 
         @Test
         void aiSesion2kwhEstimado() {
-            assertEquals(0.00006, aiSesion2.getKwhEstimado(), 0.01);
+            assertEquals(0.06, aiSesion2.getKwhEstimado(), 0.01);
         }
     }
 
