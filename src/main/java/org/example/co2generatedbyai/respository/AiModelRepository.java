@@ -25,10 +25,9 @@ public class AiModelRepository {
         return jdbc.query("SELECT * FROM ai_model", aiModelRowMapper);
     }
 
-    public AiModel findByNameAiModel(String nombre) {
-        String sql = "SELECT * FROM ai_model WHERE nombre = ?";
-
-        return jdbc.queryForObject(sql, new Object[]{nombre}, aiModelRowMapper);
+    public AiModel findByNombreAndTipoTarea(String nombre, String tipoTarea) {
+        String sql = "SELECT * FROM ai_model WHERE nombre = ? AND tipo_tarea = ?";
+        return jdbc.queryForObject(sql, new Object[]{nombre, tipoTarea}, aiModelRowMapper);
     }
 
 
