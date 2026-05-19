@@ -10,9 +10,9 @@ L'avaluació de la pràctica es farà en base a:
 
 Aquesta pràctica afecta als següents RAs:
 
-- 485. Programació (RA5, RA8, RA9)
-- 486. Entorns de desenvolupament (RA3)
-- 487. Sostenibilitat aplicada al sistema productiu (tots els RAs)
+- 0485: Programació (RA5, RA8, RA9)
+- 0486: Entorns de desenvolupament (RA3)
+- 0487: Sostenibilitat aplicada al sistema productiu (tots els RAs)
 
 ---
 
