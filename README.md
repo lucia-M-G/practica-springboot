@@ -168,7 +168,7 @@ Devuelve modelos ordenados por `consumo` ascendente (de menos a más consumo).
 
 Cada sesión se vincula a un registro de `ai_model` mediante `modelo` + `tipo_tarea` para obtener `co2_consulta` y `consumo`.
 
-ENLAZE AL SCRIPT EN docs/
+Aquí encontraréis el fichero para poder conseguir la Base de Datos creada y utilizada en esta aplicación: [Script de cración de la Base de Datos](docs/sql/co2_by_ai.sql)
 
 ### 1.6 Descripción técnica del cálculo de CO2 y kWh
 
@@ -253,7 +253,7 @@ curl -X DELETE http://localhost:8080/sesions/1
 
 El desarrollo se ha hecho en el repositorio de la práctica, con ramas por funcionalidad e integración en la rama `dev`.
 
-Utilizamos **GitHub Projects** para planificar tareas, asignar responsables y hacer seguimiento del estado del trabajo.  [Tablero del proyecto](https://github.com/orgs/LSG-Programacio/projects/7)
+Utilizamos **GitHub Projects** para planificar tareas, asignar responsables y hacer seguimiento del estado del trabajo:  [Tablero del proyecto](https://github.com/orgs/LSG-Programacio/projects/7)
 
 Respectivo al flujo de trabajo:
 
