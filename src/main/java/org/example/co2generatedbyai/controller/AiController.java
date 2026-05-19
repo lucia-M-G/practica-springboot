@@ -35,7 +35,7 @@ public class AiController {
     }
 
     // getSesionById después de report y export para evitar confundir /report con /{id}
-    @GetMapping("/sesions/{id}")
+    @GetMapping(path = "/sesions/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<AiSesion> getSesion(@PathVariable int id) {
         AiSesion sesion = aiService.getSesion(id);
         if (sesion == null) {
