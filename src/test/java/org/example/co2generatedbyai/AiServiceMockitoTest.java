@@ -26,6 +26,7 @@ class AiServiceMockitoTest {
     public static AiModelRepository aiModelRepository;
     public static AiService aiService;
     public static AiModel modeloGpt4;
+    public static List<AiModel> aiModelRanking;
 
     @BeforeAll
     static void setUp() {
@@ -34,7 +35,15 @@ class AiServiceMockitoTest {
 
         modeloGpt4 = new AiModel("GPT-4", "texto", 6.5, 0.005);
 
+        aiModelRanking = new ArrayList<>();
+        aiModelRanking.add(new AiModel("GitHub Copilot", "codigo", 0.075, 0.0001));
+        aiModelRanking.add(new AiModel("Cerca Google", "busqueda", 0.1, 0.0003));
+        aiModelRanking.add(new AiModel("GPT-3.5", "texto", 0.65, 0.001));
+        aiModelRanking.add(modeloGpt4);
+        aiModelRanking.add(new AiModel("Stable Diffusion", "imagen", 8.75, 0.012));
+
         Mockito.when(aiModelRepository.findByNameAiModel("GPT-4")).thenReturn(modeloGpt4);
+        Mockito.when(aiModelRepository.getAllAiModelOrderByEficency()).thenReturn(aiModelRanking);
 
         aiService = new AiService();
         ReflectionTestUtils.setField(aiService, "aiSesionRepository", aiSesionRepository);
@@ -111,13 +120,6 @@ class AiServiceMockitoTest {
 
     @Test
     void getAiModelRankingTest() {
-        List<AiModel> aiModelRanking = new ArrayList<>();
-        aiModelRanking.add(new AiModel("GitHub Copilot", "codigo", 0.075, 0.0001));
-        aiModelRanking.add(new AiModel("Cerca Google", "busqueda", 0.1, 0.0003));
-        aiModelRanking.add(new AiModel("GPT-3.5", "texto", 0.65, 0.001));
-        aiModelRanking.add(modeloGpt4);
-        aiModelRanking.add(new AiModel("Stable Diffusion", "imagen", 8.75, 0.012));
-
         assertEquals(aiModelRanking, aiService.getAiModelRanking());
     }
 }
