@@ -35,7 +35,7 @@ public class AiSesion {
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.co2Estimado = this.numConsultas * aiModel.getCO2Consulta();
-        this.kwhEstimado = this.numConsultas * (aiModel.getConsumo() / 1000.0);
+        this.kwhEstimado = this.numConsultas * aiModel.getConsumo();
     }
 
     public int getId() {
