@@ -87,4 +87,8 @@ public class AiService {
         }
         return sesiones;
     }
+
+    public List<AiModel> getAiModelRanking() {
+        return aiModelRepository.getAllAiModelOrderByEficency();
+    }
 }
