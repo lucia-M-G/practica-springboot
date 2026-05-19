@@ -9,5 +9,4 @@ class Co2generatedByAiApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }
