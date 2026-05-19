@@ -90,7 +90,8 @@ src/
 
 #### Relación entre clases
 
-INSERTAR DRAW.IO
+<img src="docs/diagramas/01-dominio.png" alt="Dominio" width="700"/>
+<img src="docs/diagramas/02-capas.png" alt="Capas" width="700"/>
 
 ### 1.4 Documentación de los endpoints REST
 
@@ -163,7 +164,7 @@ Devuelve modelos ordenados por `consumo` ascendente (de menos a más consumo).
 
 **Base de datos:** `co2_by_ai`
 
-INSERTAR DRAW.IO
+<img src="docs/diagramas/03-base-datos.png" alt="BD" width="700"/>
 
 Cada sesión se vincula a un registro de `ai_model` mediante `modelo` + `tipo_tarea` para obtener `co2_consulta` y `consumo`.
 
