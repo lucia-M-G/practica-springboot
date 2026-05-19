@@ -1,4 +1,4 @@
-package org.example.co2generatedbyai.respository;
+package org.example.co2generatedbyai.repository;
 
 import org.example.co2generatedbyai.model.AiSesion;
 import org.example.co2generatedbyai.model.AiUserReport;

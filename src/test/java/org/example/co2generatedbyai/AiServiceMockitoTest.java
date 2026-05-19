@@ -2,7 +2,7 @@ package org.example.co2generatedbyai;
 
 import org.example.co2generatedbyai.model.AiModel;
 import org.example.co2generatedbyai.model.AiSesion;
-import org.example.co2generatedbyai.respository.*;
+import org.example.co2generatedbyai.repository.*;
 import org.example.co2generatedbyai.service.AiService;
 
 import org.junit.jupiter.api.BeforeAll;

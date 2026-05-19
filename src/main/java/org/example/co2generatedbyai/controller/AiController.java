@@ -1,7 +1,7 @@
 package org.example.co2generatedbyai.controller;
 
 import org.example.co2generatedbyai.model.*;
-import org.example.co2generatedbyai.respository.AiModelRepository;
+import org.example.co2generatedbyai.repository.AiModelRepository;
 import org.example.co2generatedbyai.service.AiService;
 
 import org.springframework.beans.factory.annotation.Autowired;

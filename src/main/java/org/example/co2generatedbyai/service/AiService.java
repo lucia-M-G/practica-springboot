@@ -1,7 +1,7 @@
 package org.example.co2generatedbyai.service;
 
 import org.example.co2generatedbyai.model.*;
-import org.example.co2generatedbyai.respository.*;
+import org.example.co2generatedbyai.repository.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 //Excepcion de SpringBoot para consulta sin resulados
