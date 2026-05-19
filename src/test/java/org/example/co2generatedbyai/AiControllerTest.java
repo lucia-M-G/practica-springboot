@@ -26,6 +26,7 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
@@ -71,8 +72,8 @@ public class AiControllerTest {
 
     @Test
     void getIndexTest() throws Exception {
-        mockMvc.perform(get("api/"))
-                .andExpect(content().string("CO2 generado por IA - API funcionando"));
+        ResultActions response = mockMvc.perform(get("api/"));
+        response.andExpect(MockMvcResultMatchers.content().string("CO2 generado por IA - API funcionando"));
     }
 
     @Test
@@ -80,11 +81,12 @@ public class AiControllerTest {
         AiSesion aiSesion = new AiSesion("Maria", 5, LocalDate.parse("2026-05-19"), "prueba",new AiModel("GPT-4", "texto", 6.5, 0.005));
         when(aiService.getSesion(aiSesion.getId())).thenReturn(aiSesion);
 
-        mockMvc.perform(get("/sesions/1"))
+        ResultActions response = mockMvc.perform(get("/sesions/1")
                 .accept(MediaType.APPLICATION_JSON)
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(String.valueOf(MediaType.APPLICATION_JSON)))
-                .andExpect(jsonPath("$.usuario").value("Maria"));
+                .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.usuario").value("Maria"));
     }
 
     // test del post de sesions
@@ -94,7 +96,7 @@ public class AiControllerTest {
         given(aiSesion1).willAnswer((invocation -> invocation.getArgument(0)));
 
         //traemos nuesto MockMvc
-        ResultActions response = mockMvc.perform(post("api/sesions")
+        ResultActions response = mockMvc.perform(post("/sesions")
                 .contentType(String.valueOf(MediaType.APPLICATION_JSON))
                 .content(objectMapper.writeValueAsString(aiSesion1)));
 
@@ -107,9 +109,14 @@ public class AiControllerTest {
     @Test
     void getSesionsTest_ReturnResponseDto() throws Exception {
         // imitar aiService.getAllSesions()
-        when(aiService.getAllSesions()).thenReturn(aiSesions);
+        List<AiSesion> resultados = Arrays.asList(aiSesion);
+        when(aiService.getAllSesions()).thenReturn(resultados);
 
-        ResultActions response = mockMvc.perform(get("api/sesions"))
+        ResultActions response = mockMvc.perform(get("/sesions")
+                .contentType(String.valueOf(MediaType.APPLICATION_JSON)));
+
+        response.andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.size()", CoreMatchers.is(aiSesions.size())));
     }
 
 
