@@ -5,26 +5,35 @@ import org.example.co2generatedbyai.model.AiModel;
 import org.example.co2generatedbyai.model.AiSesion;
 import org.example.co2generatedbyai.model.AiUserReport;
 import org.example.co2generatedbyai.service.AiService;
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MediaType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatcher;
+import org.mockito.ArgumentMatchers;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import tools.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = AiController.class)
@@ -61,6 +70,12 @@ public class AiControllerTest {
     }
 
     @Test
+    void getIndexTest() throws Exception {
+        mockMvc.perform(get("api/"))
+                .andExpect(content().string("CO2 generado por IA - API funcionando"));
+    }
+
+    @Test
     void getSesion_ReturnSesion_WhenFound() throws Exception {
         AiSesion aiSesion = new AiSesion("Maria", 5, LocalDate.parse("2026-05-19"), "prueba",new AiModel("GPT-4", "texto", 6.5, 0.005));
         when(aiService.getSesion(aiSesion.getId())).thenReturn(aiSesion);
@@ -68,13 +83,34 @@ public class AiControllerTest {
         mockMvc.perform(get("/sesions/1"))
                 .accept(MediaType.APPLICATION_JSON)
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(String.valueOf(MediaType.APPLICATION_JSON)))
                 .andExpect(jsonPath("$.usuario").value("Maria"));
     }
 
     // test del post de sesions
     @Test
-    void creatSesion_Test_ReturnCreated() throws Exception {
-        given(aiSesion)
+    void creatSesionTest_ReturnCreated() throws Exception {
+        AiSesion aiSesion1 = aiService.createSesion(ArgumentMatchers.any());
+        given(aiSesion1).willAnswer((invocation -> invocation.getArgument(0)));
+
+        //traemos nuesto MockMvc
+        ResultActions response = mockMvc.perform(post("api/sesions")
+                .contentType(String.valueOf(MediaType.APPLICATION_JSON))
+                .content(objectMapper.writeValueAsString(aiSesion1)));
+
+        response.andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.usuario", CoreMatchers.is(aiSesion1.getUsuario()))) //comprovamos el valor del usuario de la sesion
+                .andExpect(MockMvcResultMatchers.jsonPath("$.numConsultas", CoreMatchers.is(aiSesion1.getNumConsultas())));
+                // .andDo(MockMvcResultHandlers.print()); //find what is actually coming back from de api
     }
+
+    @Test
+    void getSesionsTest_ReturnResponseDto() throws Exception {
+        // imitar aiService.getAllSesions()
+        when(aiService.getAllSesions()).thenReturn(aiSesions);
+
+        ResultActions response = mockMvc.perform(get("api/sesions"))
+    }
+
+
 }
