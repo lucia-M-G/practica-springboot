@@ -42,7 +42,8 @@ class AiServiceMockitoTest {
         aiModelRanking.add(modeloGpt4);
         aiModelRanking.add(new AiModel("Stable Diffusion", "imagen", 8.75, 0.012));
 
-        Mockito.when(aiModelRepository.findByNameAiModel("GPT-4")).thenReturn(modeloGpt4);
+        Mockito.when(aiModelRepository.findByNombreAndTipoTarea("GPT-4", "texto"))
+                .thenReturn(modeloGpt4);
         Mockito.when(aiModelRepository.getAllAiModelOrderByEficency()).thenReturn(aiModelRanking);
 
         aiService = new AiService();
@@ -58,6 +59,7 @@ class AiServiceMockitoTest {
             AiSesion info = new AiSesion();
             info.setUsuario("Maria");
             info.setModel("GPT-4");
+            info.setTipoTask("texto");
             info.setNumConsultas(6);
             info.setFecha(LocalDate.parse("2026-05-19"));
             info.setDescripcion("prueba");
