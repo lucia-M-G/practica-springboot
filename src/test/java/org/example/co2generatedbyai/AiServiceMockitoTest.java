@@ -13,6 +13,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -105,5 +107,17 @@ class AiServiceMockitoTest {
 
             assertEquals(false, aiService.deleteSesion(99));
         }
+    }
+
+    @Test
+    void getAiModelRankingTest() {
+        List<AiModel> aiModelRanking = new ArrayList<>();
+        aiModelRanking.add(new AiModel("GitHub Copilot", "codigo", 0.075, 0.0001));
+        aiModelRanking.add(new AiModel("Cerca Google", "busqueda", 0.1, 0.0003));
+        aiModelRanking.add(new AiModel("GPT-3.5", "texto", 0.65, 0.001));
+        aiModelRanking.add(modeloGpt4);
+        aiModelRanking.add(new AiModel("Stable Diffusion", "imagen", 8.75, 0.012));
+
+        assertEquals(aiModelRanking, aiService.getAiModelRanking());
     }
 }
