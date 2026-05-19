@@ -1,5 +1,7 @@
 package org.example.co2generatedbyai.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.time.LocalDate;
 
 public class AiSesion {
@@ -15,6 +17,7 @@ public class AiSesion {
     private Double kwhEstimado;
 
     // Constructor para que JSON pueda crear una sesión (formulario blanco para "cliente")
+    @JsonCreator
     public AiSesion() {
     }
 
