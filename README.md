@@ -168,7 +168,7 @@ Devuelve modelos ordenados por `consumo` ascendente (de menos a más consumo).
 
 Cada sesión se vincula a un registro de `ai_model` mediante `modelo` + `tipo_tarea` para obtener `co2_consulta` y `consumo`.
 
-Aquí encontraréis el fichero para poder conseguir la Base de Datos creada y utilizada en esta aplicación: [Script de cración de la Base de Datos](docs/sql/co2_by_ai.sql)
+Aquí encontraréis el fichero para poder conseguir la Base de Datos creada y utilizada en esta aplicación: [Script de creación de la Base de Datos](docs/sql/co2_by_ai.sql)
 
 ### 1.6 Descripción técnica del cálculo de CO2 y kWh
 
