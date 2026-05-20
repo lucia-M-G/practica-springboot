@@ -385,7 +385,11 @@ Lista de los modelos de IA, no las sesiones de usuarios. El primero de la lista 
 
 ### 3.1 Enfoque
 
+Las pruebas que se ha sometido el proyecto se han enfocado en verificar que los calculos que se hagan en el codigo sean correctos con test unitarios y a segurarse el funcionamiento correcto de la api comprobando el resultado de las peticiones con test usando mocking y test manuales.
+
 ### 3.2 Master Test Plan
+
+
 
 ### 3.3 Pruebas automatizadas en el código
 
