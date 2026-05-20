@@ -381,6 +381,16 @@ Lista de los modelos de IA, no las sesiones de usuarios. El primero de la lista 
 
 Útil para elegir herramientas más eficientes; no indica calidad del modelo, solo el criterio energético definido en el proyecto.
 
+## 3. Plan de pruebas (testing)
+
+### 3.1 Enfoque
+
+### 3.2 Master Test Plan
+
+### 3.3 Pruebas automatizadas en el código
+
+### 3.4 Cobertura manual vs automatizada
+
 ## 5. Trabajo en equipo y GitHub
 
 El desarrollo se ha hecho en el repositorio de la práctica, con ramas por funcionalidad e integración en la rama `dev`.
