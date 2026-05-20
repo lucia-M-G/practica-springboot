@@ -389,7 +389,25 @@ Las pruebas que se ha sometido el proyecto se han enfocado en verificar que los 
 
 ### 3.2 Master Test Plan
 
+El master Test plan consiste en las  siguientes pruebas:
 
+| **ID** | **Nombre del Test** | **Descripción** | **Tester** | **Fecha** | **Resultado** |
+|-------|----------------------|-----------------|------------|-----------|----------------|
+| 1 | POST /sesions - Crear sesión válida | Verificar que se crea una sesión correctamente y se calcula el CO₂ y kWh automáticamente | Julio Arango | 19/05/2026 | P |
+| 2 | GET /sesions - Listar todas las sesiones | Verificar que se listan todas las sesiones almacenadas en la BD | Julio Arango | 19/05/2026 | P |
+| 3 | GET /sesions/{id} - Obtener sesión por ID | Verificar que se obtiene una sesión concreta por su ID y se gestiona correctamente el caso de ID inexistente | Julio Arango | 19/05/2026 | P |
+| 4 | DELETE /sesions/{id} - Eliminar sesión | Verificar que se elimina correctamente una sesión y se gestiona el caso de ID inexistente | Julio Arango | 19/05/2026 | P |
+| 5 | GET /sesions/report - Reporte CO₂ por usuario | Verificar que el reporte agrupa correctamente el CO₂ y kWh total por usuario | Julio Arango | 19/05/2026 | P |
+| 6 | GET /sesions/export - Exportar CSV | Verificar que se exporta correctamente un fichero CSV con todas las sesiones | Julio Arango | 19/05/2026 | P |
+| 7 | POST /sesions - Validación datos incorrectos | Verificar que se validan correctamente los datos incorrectos y se devuelve HTTP 400 | Julio Arango | 19/05/2026 | P |
+| 8 | Cálculo CO₂ y kWh - Tests unitarios JUnit | Verificar que los tests unitarios de cálculo de CO₂ y kWh pasan correctamente con JUnit | Julio Arango | 19/05/2026 | P |
+| 9 | GET /modelRanking - Ranking modelos por eficiencia | Verificar que devuelve modelos ordenados de menor a mayor CO₂/consulta | Julio Arango | 19/05/2026 | P |
+
+### ✅ Resumen
+**Total Tests:** 9  
+**Resultado:** **PASS 9/9**
+
+Para mas informacion podeis ver el [Master Test Plan](docs/MasterTestPlan_AImpact.xlsx).
 
 ### 3.3 Pruebas automatizadas en el código
 
