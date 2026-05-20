@@ -4,10 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Co2generatedByAiApplicationTests {
+class ApplicationContextTest {
 
     @Test
     void contextLoads() {
     }
-
 }
