@@ -12,9 +12,12 @@
 
 2. [Manual de usuario / Manual de integración](#2-manual-de-usuario--manual-de-integración)
    - 2.1 [Requisitos](#21-requisitos)
-   - 2.2 [Configuración de MySQL](#22-configuración-de-mysql)
-   - 2.3 [Ejemplos con curl](#23-ejemplos-con-curl)
-   - 2.4 [Interpretación de resultados](#24-interpretación-de-resultados)
+   - 2.2 [Instalación](#22-instalación)
+   - 2.3 [Crear la base de datos](#23-crear-la-base-de-datos)
+   - 2.4 [Configurar la conexión](#24-configurar-la-conexión)
+   - 2.5 [Ejecución de la aplicación](#25-ejecución-de-la-aplicación)
+   - 2.6 [Uso de la API](#26-uso-de-la-API)
+   - 2.7 [Interpretación de resultados](#27-cómo-interpretar-los-resultados)
 
 3. [Plan de pruebas (testing)](#3-plan-de-pruebas-testing)
    - 3.1 [Enfoque](#31-enfoque)
@@ -189,65 +192,194 @@ Aunque, en la cabezera de la tabla de datos enegéticos de los respectivos model
 
 ## 2. Manual de usuario / Manual de integración
 
+Este apartado explica cómo instalar, ejecutar y probar la API en local. No hay interfaz gráfica: la aplicación se usa mediante Postman, curl o cualquier cliente HTTP.
+
 ### 2.1 Requisitos
 
 - JDK 25
 - Maven
-- MySQL 8 en ejecución
+- MySQL 8 en ejecución (puerto 3306)
 - Postman o curl
 
-### 2.2 Configuración de MySQL
+### 2.2 Instalación
 
-1. Crear la base `co2_by_ai` y las tablas con el script propircionado en este mismo repositorio.
-2. Insertar datos en `ai_model`.
-3. Editar `src/main/resources/application.properties`:
+1. Descargar el archivo Source code (zip) del Release.
+2. Descomprimir la carpeta en tu equipo.
+3. Abrir la carpeta en un IDE.
+
+### 2.3 Crear la base de datos
+
+Ejecuta el script del proyecto en MySQL Workbench, DBeaver o la consola de MySQL:
+
+[`docs/sql/co2_by_ai.sql`](docs/sql/co2_by_ai.sql)
+
+El script crea la base `co2_by_ai`, las tablas `ai_model` y `sesions`, e inserta los modelos de referencia de los modelos de IA.
+
+### 2.4 Configurar la conexión
+
+Edita `src/main/resources/application.properties`:
 
 ```
 spring.application.name=CO2generatedByAI
 spring.datasource.url=jdbc:mysql://localhost:3306/co2_by_ai
 spring.datasource.username=root
-spring.datasource.password=root
+spring.datasource.password=TU_PSWD
 ```
 
-La API estará en **http://localhost:8080**
+Si MySQL usa otro puerto (ej. 3307), cámbialo en la URL: `localhost:3307/co2_by_ai`.
 
-### 2.3 Ejemplos con curl
+### 2.5 Ejecución de la aplicación
 
-```bash
-# Índice
-curl http://localhost:8080/
+Al ejecutar `Co2byAiApplication.java`, si todo va bien, verás en consola que la aplicación ha arrancado.
 
-# Crear sesión
+La API queda disponible en: **http://localhost:8080**
+
+Para comprobar que funciona, abre en el navegador o en Postman:
+
+```
+GET http://localhost:8080/
+```
+
+> Respuesta esperada: `CO2 generado por IA - API funcionando`
+
+Opcionalmente puedes ejecutar los tests automatizados ubicados en:
+
+```
+└── test/java/org/example/co2generatedbyai/
+    ├── AiServiceMockitoTest.java
+    ├── AiSesionTest.java
+    └── ApplicationContextTest.java
+```
+
+### 2.6 Uso de la API
+
+**URL base:** `http://localhost:8080`
+
+### Crear una sesión
+
+Registra una sesión de IA. El sistema calcula automáticamente el CO₂ y el kWh a partir de la tabla `ai_model`.
+
+Los campos son: 
+
+```
+{
+  "usuario": "Maria",
+  "model": "GPT-4",
+  "tipoTask": "texto",
+  "numConsultas": 6,
+  "fecha": "2026-05-20",
+  "descripcion": "Redacción de informe"
+}
+```
+
+Importante:
+- El nombre del modelo debe existir en `ai_model`.
+- El tipo de tarea debe coincidir con los valores de la Base de Datos.
+- Si no se envía un valor para `fecha`, se usa la fecha de hoy.
+- Si no se envía un valor para `descripcion`, se guarda este campo vacío.
+
+```
 curl -X POST http://localhost:8080/sesions \
   -H "Content-Type: application/json" \
-  -d "{\"usuario\":\"Maria\",\"model\":\"GPT-4\",\"tipoTask\":\"texto\",\"numConsultas\":6}"
+  -d "{\"usuario\":\"Maria\",\"model\":\"GPT-4\",\"tipoTask\":\"texto\",\"numConsultas\":6,\"descripcion\":\"Prueba desde curl\"}"
+```
 
-# Listar
+**Respuesta esperada:** `201 Created`
+
+```json
+{
+  "id": 1,
+  "usuario": "Maria",
+  "model": "GPT-4",
+  "tipoTask": "texto",
+  "numConsultas": 6,
+  "fecha": "2026-05-20",
+  "descripcion": "Prueba desde curl",
+  "co2Estimado": 39.0,
+  "kwhEstimado": 0.03
+}
+```
+
+### Listar todas las sesiones
+
+```
 curl http://localhost:8080/sesions
+```
 
-# Por id
+**Respuesta:** `200 OK` con un array JSON de sesiones.
+
+### Obtener una sesión por ID
+
+```
 curl http://localhost:8080/sesions/1
+```
 
-# Informe por usuario
-curl http://localhost:8080/sesions/report
+- Si la sesión existe --> `200 OK`
+- Si la sesion no existe --> `404 Not Found`
 
-# Export (JSON + CSV en exports/sesions.csv)
-curl http://localhost:8080/sesions/export
+### Eliminar una sesión
 
-# Ranking
-curl http://localhost:8080/modelRanking
-
-# Borrar
+```
 curl -X DELETE http://localhost:8080/sesions/1
 ```
 
-### 2.4 Interpretación de resultados
+- Si es eliminada correctamente --> `204 No Content`
+- Si el id marcado es inexistente --> `404 Not Found`
 
-**`/sesions/report`:** Para cada `usuario`, los campos `totalCo2` y `totalKwh` son la suma de todas sus sesiones. Así comparamos quién acumula más consumo energético.
+### Informe de impacto por usuario
 
-**`/sesions/export`:** Devuelve el JSON de todas las sesiones y genera **`exports/sesions.csv`** en el directorio del proyecto (carpeta ignorada por Git y creada automáticamente). Cada línea del CSV contiene id, usuario, modelo, tipo, consultas, fecha, descripción, CO₂ y kWh.
+```
+curl http://localhost:8080/sesions/report
+```
 
-**`/modelRanking`:** Lista los modelos de más a menos eficientes en consumo por consulta (no en CO₂ directamente). Es útil para elegir herramientas con menor huella energética según la tabla.
+Devuelve el CO₂ y el kWh acumulados por cada usuario.
+
+### Exportar sesiones
+
+```
+curl http://localhost:8080/sesions/export
+```
+
+- Respuesta HTTP: `200 OK` con la lista de sesiones en JSON.  
+- Además, se genera el fichero **`exports/sesions.csv`** en la carpeta del proyecto (una fila por sesión).
+
+### Ranking de eficiencia de modelos
+
+```
+curl http://localhost:8080/modelRanking
+```
+
+Devuelve los modelos de `ai_model` ordenados por consumo energético por consulta.
+
+### 2.7 Cómo interpretar los resultados
+
+### `POST /sesions`: Crear una sesión
+
+- `co2Estimado`: Gramos de CO₂ estimados para toda la sesión
+- `kwhEstimado`: kWh estimados para toda la sesión
+- `id`: Identificador asignado en la base de datos
+
+Fórmulas (por sesión):
+
+- **CO₂ (g)**: `numConsultas × co2_consulta` del modelo  
+- **kWh**: `numConsultas × consumo` del modelo  
+
+### `GET /sesions/report`: Generar informe
+
+Cada elemento del JSON representa un usuario. Sirve para comparar qué usuarios acumulan más impacto ambiental en el uso de IA.
+
+### `GET /sesions/export`: Exportación
+
+- **En la respuesta HTTP:** ves los mismos datos que en el listado, en JSON.  
+- **Con files:** el CSV en `exports/sesions.csv` te permite tenerlo en local.
+
+Las columnas del CSV siguen el orden: id, usuario, model, tipoTask, numConsultas, fecha, descripcion, co2Estimado, kwhEstimado.
+
+### `GET /modelRanking`: Ranking
+
+Lista de los modelos de IA, no las sesiones de usuarios. El primero de la lista es el que consume menos energía por consulta.
+
+Útil para elegir herramientas más eficientes; no indica calidad del modelo, solo el criterio energético definido en el proyecto.
 
 ## 5. Trabajo en equipo y GitHub
 
