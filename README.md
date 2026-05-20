@@ -455,6 +455,52 @@ Como podeis ver los test de cobertura manual se centraron más en las capas inte
 
 Ahora, tanto en los tests manuales como en los tests automaticos comprobamos el funcionamiento de `POST`, `GET` y `DELETE`.
 
+
+## 4. Uso de la inteligencia artificial en el desarrollo
+
+### 4.1 Herramientas utilizadas
+
+Durante el desarrollo del proyecto hemos utilizado las siguientes herramientas de IA:
+
+- **Claude** (Anthropic)
+- **ChatGPT** (OpenAI)
+
+### 4.2 Dónde se ha aplicado
+
+Las herramientas de IA se han utilizado en las siguientes partes del proyecto:
+
+- Depuración y resolución de errores
+- Configuración del proyecto (application.properties, pom.xml)
+- Diseño visual del Master Test Plan
+- Diseño visual de la presentación
+
+### 4.3 Cómo se ha usado
+
+**Consultas técnicas e investigación:**
+Se usó para resolver dudas sobre Spring Boot, JdbcTemplate, arquitectura por capas y Git. Por ejemplo, entender la diferencia entre JPA y JdbcTemplate, o cómo estructurar correctamente las ramas de trabajo.
+
+**Resolución de errores:**
+Fue clave para identificar errores concretos durante el desarrollo. El más relevante fue detectar que el constructor de `AiSesion` no se deserializaba correctamente al recibir el JSON del `POST /sesions` — la solución fue añadir la anotación `@JsonCreator` al constructor vacío para indicarle a Spring qué constructor usar al procesar el JSON entrante.
+
+**Documentación y diseño:**
+Se usó para para diseñar el esquema visual de la presentación del proyecto y el Master Plan test.
+
+**Adaptación de resultados:**
+En todos los casos, los resultados generados por la IA se han revisado, adaptado y validado por el equipo antes de integrarse en el proyecto. No se ha copiado código directamente sin entenderlo.
+
+### 4.4 Valoración crítica
+
+**Qué ha funcionado bien:**
+- Agilizar la resolución de errores que habrían costado mucho más tiempo buscando en documentación oficial.
+- Obtener explicaciones claras de conceptos nuevos como `@JsonCreator`, `JdbcTemplate` o el flujo de ramas con Git.
+- Generar una ayuda de diseño visual para el Master Test Plan y la presentación que luego hemos personalizado.
+
+**Dónde ha habido que corregir la IA:**
+- En algunas ocasiones sugería soluciones con JPA cuando nosotras habíamos decidido usar JdbcTemplate — había que redirigir la consulta especificando nuestra decisión técnica.
+- Algunos fragmentos de código generados no encajaban directamente con nuestra estructura de clases y había que adaptarlos.
+
+
+
 ## 5. Trabajo en equipo y GitHub
 
 El desarrollo se ha hecho en el repositorio de la práctica, con ramas por funcionalidad e integración en la rama `dev`.
