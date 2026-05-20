@@ -411,7 +411,45 @@ Para mas informacion podeis ver el [Master Test Plan](docs/MasterTestPlan_AImpac
 
 ### 3.3 Pruebas automatizadas en el código
 
+Para la pruebas automatizadas en el codigo usamos los frameworks Junit en los test de AiSesion y Mockito en los test de AiService.
+
+**Test en AiSesion:**
+Los test que se hicieron en AiSesion estan categorizados por dos propositos: comprocion de claculos y comprovacion de excepciones/control de errores.
+En total se hicieron:
+
+| **Nombre del Test** | **Descripción** | **Resultado Esperado** | **Estado** |
+|---------------------|-----------------|-------------------------|------------|
+| maria_co2Estimado | Cálculo correcto del CO₂ estimado para María | CO₂ = 39.0 | ✔️ PASS |
+| maria_kwhEstimado | Cálculo correcto del kWh estimado para María | kWh = 0.03 | ✔️ PASS |
+| julio_co2Estimado | Cálculo correcto del CO₂ estimado para Julio | CO₂ = 43.75 | ✔️ PASS |
+| julio_kwhEstimado | Cálculo correcto del kWh estimado para Julio | kWh = 0.06 | ✔️ PASS |
+| copiaDatosDesdeAiModel | Verifica que los datos del modelo se copian correctamente a la sesión | Modelo = GPT-4, Tipo = texto, Usuario = Maria, Consultas = 6 | ✔️ PASS |
+| modeloNull_lanzaExcepcion | Validación: modelo nulo debe lanzar excepción | IllegalArgumentException con mensaje "No existe modelo de referencia" | ✔️ PASS |
+| ceroConsultas_lanzaExcepcion | Validación: número de consultas igual a 0 debe lanzar excepción | IllegalArgumentException con mensaje "No se pueden hacer sesiones sin numero de consultas" | ✔️ PASS |
+| consultasNegativas_lanzaExcepcion | Validación: consultas negativas deben lanzar excepción | IllegalArgumentException | ✔️ PASS |
+
+Para mas información de los test de AiSesion podeis mirar este documento 
+
+
+**Test en AiService:**
+
+Los test que se hicieron en AiService se centran en comprobar que las sesiones se creen, eliminen, muestren en el formato correcto. Tambien se comprueva si el metodo para obtener el ranking funciona.
+
+Resumen de los test:
+
+| **Nombre del Test** | **Descripción** | **Resultado Esperado** | **Estado** |
+|---------------------|-----------------|-------------------------|------------|
+| createSesion_devuelveCo2Calculado | Crear una sesión y calcular automáticamente CO₂ y kWh | Usuario = Maria, CO₂ = 39.0, kWh = 0.03 | ✔️ PASS |
+| getSesion_existe_devuelveSesion | Obtener una sesión existente por ID | Devuelve sesión con usuario = Maria | ✔️ PASS |
+| getSesion_noExiste_devuelveNull | Intentar obtener una sesión inexistente | Devuelve null | ✔️ PASS |
+| deleteSesion_existe_devuelveTrue | Eliminar una sesión existente | Retorna true | ✔️ PASS |
+| deleteSesion_noExiste_devuelveFalse | Intentar eliminar una sesión inexistente | Retorna false | ✔️ PASS |
+| getAiModelRankingTest | Obtener ranking de modelos por eficiencia | Retorna lista aiModelRanking | ✔️ PASS |
+
+
 ### 3.4 Cobertura manual vs automatizada
+
+
 
 ## 5. Trabajo en equipo y GitHub
 
