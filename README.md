@@ -428,7 +428,7 @@ En total se hicieron:
 | ceroConsultas_lanzaExcepcion | Validación: número de consultas igual a 0 debe lanzar excepción | IllegalArgumentException con mensaje "No se pueden hacer sesiones sin numero de consultas" | ✔️ PASS |
 | consultasNegativas_lanzaExcepcion | Validación: consultas negativas deben lanzar excepción | IllegalArgumentException | ✔️ PASS |
 
-Para mas información de los test de AiSesion podeis mirar este documento [AiSesionTest](src/test/java/org/example/co2generatedbyai/AiServiceMockitoTest.java).
+Para mas información de los test de AiSesion podeis mirar este documento [AiSesionTest](src/test/java/org/example/co2generatedbyai/AiSesionTest.java).
 
 
 **Test en AiService:**
