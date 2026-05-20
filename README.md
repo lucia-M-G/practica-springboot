@@ -451,7 +451,9 @@ Para más información podeis consultar [AiServiceMockitoTest](src/test/java/org
 
 ### 3.4 Cobertura manual vs automatizada
 
+Como podeis ver los test de cobertura manual se centraron más en las capas interiores del sistema (AiService y AiSesion) mientras que lo test manuales se centraron mas en la capa exterior (AiController). 
 
+Ahora, tanto en los tests manuales como en los tests automaticos comprobamos el funcionamiento de `POST`, `GET` y `DELETE`.
 
 ## 5. Trabajo en equipo y GitHub
 
