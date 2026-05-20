@@ -428,7 +428,7 @@ En total se hicieron:
 | ceroConsultas_lanzaExcepcion | Validación: número de consultas igual a 0 debe lanzar excepción | IllegalArgumentException con mensaje "No se pueden hacer sesiones sin numero de consultas" | ✔️ PASS |
 | consultasNegativas_lanzaExcepcion | Validación: consultas negativas deben lanzar excepción | IllegalArgumentException | ✔️ PASS |
 
-Para mas información de los test de AiSesion podeis mirar este documento 
+Para mas información de los test de AiSesion podeis mirar este documento [AiSesionTest](src/test/java/org/example/co2generatedbyai/AiServiceMockitoTest.java).
 
 
 **Test en AiService:**
@@ -445,6 +445,8 @@ Resumen de los test:
 | deleteSesion_existe_devuelveTrue | Eliminar una sesión existente | Retorna true | ✔️ PASS |
 | deleteSesion_noExiste_devuelveFalse | Intentar eliminar una sesión inexistente | Retorna false | ✔️ PASS |
 | getAiModelRankingTest | Obtener ranking de modelos por eficiencia | Retorna lista aiModelRanking | ✔️ PASS |
+
+Para más información podeis consultar [AiServiceMockitoTest](src/test/java/org/example/co2generatedbyai/AiServiceMockitoTest.java)
 
 
 ### 3.4 Cobertura manual vs automatizada
