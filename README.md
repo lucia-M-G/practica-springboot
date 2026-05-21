@@ -385,7 +385,7 @@ Lista de los modelos de IA, no las sesiones de usuarios. El primero de la lista 
 
 ### 3.1 Enfoque
 
-Las pruebas que se ha sometido el proyecto se han enfocado en verificar que los calculos que se hagan en el codigo sean correctos con test unitarios y a segurarse el funcionamiento correcto de la api comprobando el resultado de las peticiones con test usando mocking y test manuales.
+Las pruebas a que hemos llevado a cabo en el proyecto se han enfocado en test unitarios para comprovar que los cálculos del código sean correctos, y en test Mockito y manuales [(Master Test Plan)](docs/MasterTestPlan_AImpact.xlsx) para comprovar el funcionamiento correcto de la API.
 
 ### 3.2 Master Test Plan
 
@@ -403,11 +403,9 @@ El master Test plan consiste en las  siguientes pruebas:
 | 8 | Cálculo CO₂ y kWh - Tests unitarios JUnit | Verificar que los tests unitarios de cálculo de CO₂ y kWh pasan correctamente con JUnit | Julio Arango | 19/05/2026 | P |
 | 9 | GET /modelRanking - Ranking modelos por eficiencia | Verificar que devuelve modelos ordenados de menor a mayor CO₂/consulta | Julio Arango | 19/05/2026 | P |
 
-### ✅ Resumen
-**Total Tests:** 9  
-**Resultado:** **PASS 9/9**
-
-Para mas informacion podeis ver el [Master Test Plan](docs/MasterTestPlan_AImpact.xlsx).
+### Resumen
+**Tests totales:** 9  
+**Resultado:** PASS 9/9
 
 ### 3.3 Pruebas automatizadas en el código
 
@@ -419,17 +417,14 @@ En total se hicieron:
 
 | **Nombre del Test** | **Descripción** | **Resultado Esperado** | **Estado** |
 |---------------------|-----------------|-------------------------|------------|
-| maria_co2Estimado | Cálculo correcto del CO₂ estimado para María | CO₂ = 39.0 | ✔️ PASS |
-| maria_kwhEstimado | Cálculo correcto del kWh estimado para María | kWh = 0.03 | ✔️ PASS |
-| julio_co2Estimado | Cálculo correcto del CO₂ estimado para Julio | CO₂ = 43.75 | ✔️ PASS |
-| julio_kwhEstimado | Cálculo correcto del kWh estimado para Julio | kWh = 0.06 | ✔️ PASS |
-| copiaDatosDesdeAiModel | Verifica que los datos del modelo se copian correctamente a la sesión | Modelo = GPT-4, Tipo = texto, Usuario = Maria, Consultas = 6 | ✔️ PASS |
-| modeloNull_lanzaExcepcion | Validación: modelo nulo debe lanzar excepción | IllegalArgumentException con mensaje "No existe modelo de referencia" | ✔️ PASS |
-| ceroConsultas_lanzaExcepcion | Validación: número de consultas igual a 0 debe lanzar excepción | IllegalArgumentException con mensaje "No se pueden hacer sesiones sin numero de consultas" | ✔️ PASS |
-| consultasNegativas_lanzaExcepcion | Validación: consultas negativas deben lanzar excepción | IllegalArgumentException | ✔️ PASS |
-
-Para mas información de los test de AiSesion podeis mirar este documento [AiSesionTest](src/test/java/org/example/co2generatedbyai/AiSesionTest.java).
-
+| maria_co2Estimado | Cálculo correcto del CO₂ estimado para María | CO₂ = 39.0 | PASS |
+| maria_kwhEstimado | Cálculo correcto del kWh estimado para María | kWh = 0.03 | PASS |
+| julio_co2Estimado | Cálculo correcto del CO₂ estimado para Julio | CO₂ = 43.75 | PASS |
+| julio_kwhEstimado | Cálculo correcto del kWh estimado para Julio | kWh = 0.06 | PASS |
+| copiaDatosDesdeAiModel | Verifica que los datos del modelo se copian correctamente a la sesión | Modelo = GPT-4, Tipo = texto, Usuario = Maria, Consultas = 6 | PASS |
+| modeloNull_lanzaExcepcion | Validación: modelo nulo debe lanzar excepción | IllegalArgumentException con mensaje "No existe modelo de referencia" | PASS |
+| ceroConsultas_lanzaExcepcion | Validación: número de consultas igual a 0 debe lanzar excepción | IllegalArgumentException con mensaje "No se pueden hacer sesiones sin numero de consultas" | PASS |
+| consultasNegativas_lanzaExcepcion | Validación: consultas negativas deben lanzar excepción | IllegalArgumentException | PASS |
 
 **Test en AiService:**
 
@@ -439,22 +434,18 @@ Resumen de los test:
 
 | **Nombre del Test** | **Descripción** | **Resultado Esperado** | **Estado** |
 |---------------------|-----------------|-------------------------|------------|
-| createSesion_devuelveCo2Calculado | Crear una sesión y calcular automáticamente CO₂ y kWh | Usuario = Maria, CO₂ = 39.0, kWh = 0.03 | ✔️ PASS |
-| getSesion_existe_devuelveSesion | Obtener una sesión existente por ID | Devuelve sesión con usuario = Maria | ✔️ PASS |
-| getSesion_noExiste_devuelveNull | Intentar obtener una sesión inexistente | Devuelve null | ✔️ PASS |
-| deleteSesion_existe_devuelveTrue | Eliminar una sesión existente | Retorna true | ✔️ PASS |
-| deleteSesion_noExiste_devuelveFalse | Intentar eliminar una sesión inexistente | Retorna false | ✔️ PASS |
-| getAiModelRankingTest | Obtener ranking de modelos por eficiencia | Retorna lista aiModelRanking | ✔️ PASS |
-
-Para más información podeis consultar [AiServiceMockitoTest](src/test/java/org/example/co2generatedbyai/AiServiceMockitoTest.java)
-
+| createSesion_devuelveCo2Calculado | Crear una sesión y calcular automáticamente CO₂ y kWh | Usuario = Maria, CO₂ = 39.0, kWh = 0.03 | PASS |
+| getSesion_existe_devuelveSesion | Obtener una sesión existente por ID | Devuelve sesión con usuario = Maria | PASS |
+| getSesion_noExiste_devuelveNull | Intentar obtener una sesión inexistente | Devuelve null | PASS |
+| deleteSesion_existe_devuelveTrue | Eliminar una sesión existente | Retorna true | PASS |
+| deleteSesion_noExiste_devuelveFalse | Intentar eliminar una sesión inexistente | Retorna false | PASS |
+| getAiModelRankingTest | Obtener ranking de modelos por eficiencia | Retorna lista aiModelRanking | PASS |
 
 ### 3.4 Cobertura manual vs automatizada
 
 Como podeis ver los test de cobertura manual se centraron más en las capas interiores del sistema (AiService y AiSesion) mientras que lo test manuales se centraron mas en la capa exterior (AiController). 
 
 Ahora, tanto en los tests manuales como en los tests automaticos comprobamos el funcionamiento de `POST`, `GET` y `DELETE`.
-
 
 ## 4. Uso de la inteligencia artificial en el desarrollo
 
@@ -499,8 +490,6 @@ En todos los casos, los resultados generados por la IA se han revisado, adaptado
 - En algunas ocasiones sugería soluciones con JPA cuando nosotras habíamos decidido usar JdbcTemplate — había que redirigir la consulta especificando nuestra decisión técnica.
 - Algunos fragmentos de código generados no encajaban directamente con nuestra estructura de clases y había que adaptarlos.
 
-
-
 ## 5. Trabajo en equipo y GitHub
 
 El desarrollo se ha hecho en el repositorio de la práctica, con ramas por funcionalidad e integración en la rama `dev`.
@@ -511,7 +500,6 @@ Respectivo al flujo de trabajo:
 
 - Cada funcionalidad relevante se trabaja en una **rama** y se integra en `dev` mediante merge.
 - Los **commits** siguen la notación de Conventional Commits.
-- Las pruebas de API se documentan en el [Master Test Plan](docs/MasterTestPlan_AImpact.xlsx) y las automatizadas se ejecutan con `mvn test`.
 
 ## 6. Autores
 Julio Arango <br>
